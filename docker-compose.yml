@@ -13,6 +13,7 @@ services:
       - "bbdd"
 
   bbdd:
+    container_name: iaw_bbdd
     image: mysql:latest
     restart: always
     environment:
