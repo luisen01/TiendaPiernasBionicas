@@ -1,0 +1,49 @@
+pipeline {
+            agent {label 'anfitrion'}
+                stages {
+                        stage('Downloading configuration files') {
+                            steps {
+                                echo 'Descargando...'
+                                sh 'rm -R .* || true'
+                                sh 'rm -R * || true'
+                                sh 'git clone https://github.com/luisen01/TiendaPiernasBionicas.git .'
+                            }
+                        }
+                        stage('Deploy docker') {
+                            steps {
+                                echo 'Contruyendo...'
+                                sh 'sudo docker-compose up -d'
+                                
+                            }
+                        }
+                        stage('PHP a producción') {
+                            steps {
+                                echo 'Añadiendo los ficheros PHP...'
+                                sh 'sudo cp PHP/* web/ || true'
+                            }
+                        }
+                        stage('Scripts para montar BBDD') {
+                            steps {
+                                echo 'Añadiendo tablas en iaw_db...'
+                                sh 'sudo docker exec -i tienda_bbdd sh -c "mysql -u root -psecret iaw_db < /scripts/structure.sql" || true'
+                            }
+                        }
+                        stage('Install composer') {
+                            steps {
+                                echo 'Instalando las dependencias...'
+                                sh 'sudo cd web/ && composer install || true'
+                                 }
+                        }
+                }
+            post {
+                always {
+                    echo 'Running pipeline'
+                }
+                success {
+                    echo 'Success'
+                }
+                failure {
+                    echo 'Oops something went wrong'
+                }
+            }
+        }
