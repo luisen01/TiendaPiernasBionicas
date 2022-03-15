@@ -1,21 +1,21 @@
 <html>
   <head>
-    <title>Lista completa de productos</title>
+    <title>Lista completa de clientes</title>
   </head>
   <body>
-    <h1>Productos de la tienda:<br></h1>
+    <h1>Clientes de la tienda:<br></h1>
   
 <?php 
 
 //incluimos la clase con la que trabajamos
-require("./producto.php");
+require("./cliente.php");
 
 
 //recoger valores del form
 $tipoOrdenacion = $_POST["tipoOrdenacion"];
 
 //hemos recogido datos del formulario...
-$SQLSelect = Producto::getSelectSQL($tipoOrdenacion);
+$SQLSelect = Cliente::getSelectSQL($tipoOrdenacion);
 
 echo "La sentencia SQL a ejecutar es: ".$SQLSelect."<br>";
 
@@ -39,8 +39,8 @@ try {
     //el parámetro dentro de la mysql a la que estemos conectados
     //devolviendo un objeto lista iterable
     foreach ($conn->query($SQLSelect) as $row) {
-      $productoNuevo = new Producto($row['codigo'],$row['descripcion'],$row['rebaja'],$row['estarebajas'],$row['precio']);
-      echo $productoNuevo->imprimeProducto();
+      $clienteNuevo = new Cliente($row['codigo'],$row['descripcion'],$row['nombre'],$row['apellidos'],$row['dni']);
+      echo $clienteNuevo->imprimeCliente();
     }
    
 } catch (PDOException $e) {

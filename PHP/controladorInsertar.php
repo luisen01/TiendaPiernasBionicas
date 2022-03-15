@@ -1,35 +1,32 @@
 <html>
   <head>
-    <title>Proceso de inserci&oacute;n de nuevo producto</title>
+    <title>Proceso de inserci&oacute;n de nuevo Cliente</title>
   </head>
   <body>
-    <h1>Guardando el nuevo producto...</h1>
+    <h1>Guardando el nuevo Cliente...</h1>
   
 <?php 
 
 //incluimos la clase con la que trabajamos
-require("./producto.php");
+require("./cliente.php");
 
 
 //recoger valores del form
 $codigo = $_POST["codigo"];
 $descripcion = $_POST["descripcion"];
-$rebaja = $_POST["rebaja"];
-$estarebajado = $_POST["rebajado"];
-$precio = $_POST["precio"];
+$nombre = $_POST["nombre"];
+$apellidos = $_POST["apellidos"];
+$dni = $_POST["dni"];
 
-if ($estarebajado <> true) {
-  $estarebajado = false;
-}
 
-echo "El precio del formulario es: $precio<br>";
+echo "El dni del formulario es: $dni<br>";
 //hemos recogido datos del formulario... creamos objeto
-$productoNuevo = new Producto($codigo,$descripcion,$rebaja,$estarebajado,$precio);
-echo $productoNuevo->getPrecio()."<br>";
+$clienteNuevo = new Cliente($codigo,$descripcion,$nombre,$apellidos,$dni);
+echo $clienteNuevo->getdni()."<br>";
 
 
 //Vamos a por la
-$SQLInsert = $productoNuevo->getInsertSQL();
+$SQLInsert = $clienteNuevo->getInsertSQL();
 
 echo "La sentencia SQL a ejecutar es: ".$SQLInsert."<br>";
 
