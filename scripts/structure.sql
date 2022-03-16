@@ -14,11 +14,3 @@ CREATE TABLE clientes (
         sApellido varchar(20) NOT NULL,
         DNI VARCHAR(9) PRIMARY KEY
         );
-DROP table if exists proveedores;
-CREATE TABLE proveedores (
-        nombre varchar(20) NOT NULL,
-        cif varchar(9) NOT NULL PRIMARY KEY,
-        direccion varchar(20) NOT NULL,
-        email varchar(20) NOT NULL,
-        telefono VARCHAR(9) PRIMARY KEY
-        );
