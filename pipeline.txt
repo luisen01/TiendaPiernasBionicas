@@ -16,13 +16,13 @@ pipeline {
                                 
                             }
                         }
-                        stage('PHP a producción') {
+                        stage('Add PHP files') {
                             steps {
                                 echo 'Añadiendo los ficheros PHP...'
                                 sh 'sudo cp PHP/* web/ || true'
                             }
                         }
-                        stage('Scripts para montar BBDD') {
+                        stage('Add tables on iaw_db') {
                             steps {
                                 echo 'Añadiendo tablas en iaw_db...'
                                 sh 'sudo docker exec -i tienda_bbdd sh -c "mysql -u root -psecret iaw_db < /scripts/structure.sql" || true'
@@ -31,19 +31,19 @@ pipeline {
                         stage('Install composer') {
                             steps {
                                 echo 'Instalando las dependencias...'
-                                sh 'sudo cd web/ && composer install || true'
+                                sh 'cd web/ && composer install || true'
                                  }
                         }
                 }
             post {
                 always {
-                    echo 'Ejecutando pipeline'
+                    echo 'Running pipeline'
                 }
                 success {
-                    echo 'Hecho'
+                    echo 'Success'
                 }
                 failure {
-                    echo 'Algo ha salido mal'
+                    echo 'Oops something went wrong'
                 }
             }
         }
